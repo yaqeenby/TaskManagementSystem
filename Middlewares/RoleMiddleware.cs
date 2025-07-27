@@ -7,11 +7,8 @@ namespace TaskManagementSystem.Middlewares
 {
     public class RoleBasedAccessMiddleware : IMiddleware
     {
-        private readonly ITaskService _taskService;
-
-        public RoleBasedAccessMiddleware(ITaskService taskService)
+        public RoleBasedAccessMiddleware()
         {
-            _taskService = taskService;
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -50,26 +47,6 @@ namespace TaskManagementSystem.Middlewares
                 await context.Response.WriteAsync("Forbidden: You don't have access to this resource.");
                 return;
             }
-
-
-            // var path = context.Request.Path.Value?.ToLower();
-
-            // if (path != null && path.StartsWith("/api/tasks") && context.Request.Method == "GET")
-            // {
-            //     var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            //     var segments = path.Split('/');
-
-            //     if (segments.Length >= 4 && Guid.TryParse(segments[3], out Guid taskId))
-            //     {
-            //         var task = await _taskService.GetTaskByIdAsync(taskId);
-            //         if (task.ErrorCode != ErrorCode.None || task.Data.AssignedUserId.ToString() != userId)
-            //         {
-            //             context.Response.StatusCode = StatusCodes.Status403Forbidden;
-            //             await context.Response.WriteAsync("Forbidden: You cannot access this task.");
-            //             return;
-            //         }
-            //     }
-            // }
 
             await next(context);
         }

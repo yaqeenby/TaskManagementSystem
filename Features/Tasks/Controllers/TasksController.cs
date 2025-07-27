@@ -50,7 +50,7 @@ public class TasksController : ControllerBase
     }
 
     [Authorize]
-    [HttpPut("{id}")]
+    [HttpPut("UpdateStatus/{id}")]
     public async Task<ApiResponse<TaskDto>> UpdateTaskStatus(Guid id, string status)
     {
         var response = await _taskService.UpdateTaskStatusAsync(id, status);
