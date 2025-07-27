@@ -1,2 +1,17 @@
+# Ignore build results
 bin/
 obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio stuff (optional if you're using VS)
+.vscode/
+.vs/
+*.user
+*.suo
+
+# Others
+*.log
+*.cache
+*.db
