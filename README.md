@@ -39,6 +39,11 @@ A backend system for managing tasks, users, and roles. Designed with clean archi
 2. Run the project:
    dotnet run
 
+   # Login
+
+   1. Admin: admin@example.com - password: Admin123!
+   1. User: user@example.com - password: User123!
+
 3. Open Swagger UI in browser:
    http://localhost:5001/swagger/index.html
 
