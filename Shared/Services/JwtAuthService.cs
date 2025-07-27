@@ -25,7 +25,8 @@ namespace TaskManagementSystem.Shared.Services
             new Claim(ClaimTypes.Role, user.Role ?? UserRoles.User) // optional
         };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
+            var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
