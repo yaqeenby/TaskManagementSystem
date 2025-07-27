@@ -7,12 +7,13 @@ namespace TaskManagementSystem.Users.Services
 
     public interface IUserService
     {
-        Task<ApiResponse<IEnumerable<User>>> GetAllUsersAsync();
-        Task<ApiResponse<User?>> GetUserByIdAsync(Guid id);
-        Task<ApiResponse<User?>> GetUserByIdWithTasksAsync(Guid id);
-        Task<ApiResponse<User>> CreateUserAsync(CreateUserDto user);
-        Task<ApiResponse<User>> UpdateUserAsync(User user);
+        Task<ApiResponse<IEnumerable<UserDto>>> GetAllUsersAsync();
+        Task<ApiResponse<UserDto?>> GetUserByIdAsync(Guid id);
+        Task<ApiResponse<UserDetailsDto?>> GetUserByIdWithTasksAsync(Guid id);
+        Task<ApiResponse<UserDto>> CreateUserAsync(CreateUserDto user);
+        Task<ApiResponse<UserDto>> UpdateUserAsync(UpdateUserDto user);
         Task<ApiResponse<Guid>> DeleteUserAsync(Guid id);
+        Task<ApiResponse<bool>> IsUserExistAsync(Guid id);
     }
 
 }

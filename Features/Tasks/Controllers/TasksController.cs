@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagementSystem.Services;
+using TaskManagementSystem.Shared.Models;
 using TaskManagementSystem.Shared.Responses;
 using TaskManagementSystem.Tasks.DTOs;
 using TaskManagementSystem.Tasks.Models;
@@ -16,9 +17,9 @@ public class TasksController : ControllerBase
         _taskService = taskService;
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpGet]
-    public async Task<ApiResponse<IEnumerable<TaskItem>>> GetTasks()
+    public async Task<ApiResponse<IEnumerable<TaskDto>>> GetTasks()
     {
         var tasks = await _taskService.GetAllTasksAsync();
         return tasks;
@@ -26,23 +27,23 @@ public class TasksController : ControllerBase
 
     [Authorize]
     [HttpGet("{id}")]
-    public async Task<ApiResponse<TaskItem?>> GetTask(Guid id)
+    public async Task<ApiResponse<TaskDetailsDto?>> GetTask(Guid id)
     {
         var task = await _taskService.GetTaskByIdAsync(id);
         return task;
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpPost]
-    public async Task<ApiResponse<TaskItem>> CreateTask(CreateTaskDto task)
+    public async Task<ApiResponse<TaskDto>> CreateTask(CreateTaskDto task)
     {
         var response = await _taskService.CreateTaskAsync(task);
         return response;
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpPut]
-    public async Task<ApiResponse<TaskItem>> UpdateTask(TaskItem task)
+    public async Task<ApiResponse<TaskDto>> UpdateTask(UpdateTaskDto task)
     {
         var response = await _taskService.UpdateTaskAsync(task);
         return response;
@@ -50,13 +51,13 @@ public class TasksController : ControllerBase
 
     [Authorize]
     [HttpPut("{id}")]
-    public async Task<ApiResponse<TaskItem>> UpdateTaskStatus(Guid id, string status)
+    public async Task<ApiResponse<TaskDto>> UpdateTaskStatus(Guid id, string status)
     {
         var response = await _taskService.UpdateTaskStatusAsync(id, status);
         return response;
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpDelete("{id}")]
     public async Task<ApiResponse<Guid>> DeleteTask(Guid id)
     {

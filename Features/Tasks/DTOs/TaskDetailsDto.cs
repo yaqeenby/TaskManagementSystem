@@ -1,18 +1,18 @@
-using System.ComponentModel.DataAnnotations;
+using TaskManagementSystem.Tasks.Models;
+using TaskManagementSystem.Users.DTOs;
 
 namespace TaskManagementSystem.Tasks.DTOs
 {
 
-    public class CreateTaskDto
+    public class TaskDetailsDto
     {
-        [Required]
+        public Guid Id { get; set; }
         public string Title { get; set; } = null!;
-        [Required]
         public string Description { get; set; } = null!;
-        [Required]
+        public string Status { get; set; } = TaskItemStatus.New;
         public DateTime? DueDate { get; set; }
-        [Required]
         public Guid AssignedUserId { get; set; }
+        public UserDto AssignedUser { get; set; }
     }
 
 }

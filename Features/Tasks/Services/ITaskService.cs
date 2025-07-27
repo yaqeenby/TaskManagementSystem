@@ -6,11 +6,11 @@ namespace TaskManagementSystem.Services
 {
     public interface ITaskService
     {
-        Task<ApiResponse<IEnumerable<TaskItem>>> GetAllTasksAsync();
-        Task<ApiResponse<TaskItem?>> GetTaskByIdAsync(Guid id);
-        Task<ApiResponse<TaskItem>> CreateTaskAsync(CreateTaskDto task);
-        Task<ApiResponse<TaskItem>> UpdateTaskAsync(TaskItem task);
-        Task<ApiResponse<TaskItem>> UpdateTaskStatusAsync(Guid id, string status);
+        Task<ApiResponse<IEnumerable<TaskDto>>> GetAllTasksAsync();
+        Task<ApiResponse<TaskDetailsDto?>> GetTaskByIdAsync(Guid id);
+        Task<ApiResponse<TaskDto>> CreateTaskAsync(CreateTaskDto task);
+        Task<ApiResponse<TaskDto>> UpdateTaskAsync(UpdateTaskDto task);
+        Task<ApiResponse<TaskDto>> UpdateTaskStatusAsync(Guid id, string status);
         Task<ApiResponse<Guid>> DeleteTaskAsync(Guid id);
     }
 }

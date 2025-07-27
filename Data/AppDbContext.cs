@@ -17,10 +17,13 @@ namespace TaskManagementSystem.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
+
             modelBuilder.Entity<TaskItem>()
             .HasOne(t => t.AssignedUser)
-            .WithMany()
+            .WithMany(u => u.Tasks)
             .HasForeignKey(t => t.AssignedUserId);
+
             base.OnModelCreating(modelBuilder);
         }
     }

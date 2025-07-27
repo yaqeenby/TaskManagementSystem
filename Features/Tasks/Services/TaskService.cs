@@ -1,9 +1,13 @@
+using System.Text.Json;
+using AutoMapper;
 using TaskManagementSystem.Shared.Enums;
+using TaskManagementSystem.Shared.Models;
 using TaskManagementSystem.Shared.Responses;
 using TaskManagementSystem.Shared.Services;
 using TaskManagementSystem.Tasks.DTOs;
 using TaskManagementSystem.Tasks.Models;
 using TaskManagementSystem.Tasks.Repositories;
+using TaskManagementSystem.Users.Services;
 
 namespace TaskManagementSystem.Services
 {
@@ -12,143 +16,165 @@ namespace TaskManagementSystem.Services
         private readonly ITaskQueryRepository _queryRepository;
         private readonly ITaskCommandRepository _commandRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-
-        public TaskService(ITaskQueryRepository queryRepository, ITaskCommandRepository commandRepository, ICurrentUserService currentUserService)
+        public TaskService(ITaskQueryRepository queryRepository, ITaskCommandRepository commandRepository, ICurrentUserService currentUserService, IMapper mapper, IUserService userService)
         {
             _queryRepository = queryRepository;
             _commandRepository = commandRepository;
             _currentUserService = currentUserService;
+            _userService = userService;
+            _mapper = mapper;
         }
 
-        public async Task<ApiResponse<IEnumerable<TaskItem>>> GetAllTasksAsync()
+        public async Task<ApiResponse<IEnumerable<TaskDto>>> GetAllTasksAsync()
         {
             try
             {
                 var tasksData = await _queryRepository.GetAllAsync();
-                return ApiResponse<IEnumerable<TaskItem>>.SuccessResponse(tasksData, "Tasks Retrieved Successfully");
+                return ApiResponse<IEnumerable<TaskDto>>.SuccessResponse(_mapper.Map<IEnumerable<TaskDto>>(tasksData), "Tasks Retrieved Successfully");
             }
             catch (Exception ex)
             {
-                return ApiResponse<IEnumerable<TaskItem>>.FailResponse($"Error: {ex.Message}");
+                return ApiResponse<IEnumerable<TaskDto>>.FailResponse($"Error: {ex.Message}");
             }
         }
 
-        public async Task<ApiResponse<TaskItem?>> GetTaskByIdAsync(Guid id)
+        public async Task<ApiResponse<TaskDetailsDto?>> GetTaskByIdAsync(Guid id)
         {
             try
             {
                 var taskData = await _queryRepository.GetByIdAsync(id);
-                Console.WriteLine(taskData?.AssignedUserId); // Should not be null
-                Console.WriteLine(taskData?.AssignedUser?.Name);
 
                 if (taskData != null)
                 {
                     var role = _currentUserService?.UserRole;
-                    if (role == "Admin" || (role == "User" && _currentUserService?.UserId == taskData.AssignedUserId))
+                    if (role == UserRoles.Admin || (role == UserRoles.User && _currentUserService?.UserId == taskData.AssignedUserId))
                     {
-                        return ApiResponse<TaskItem?>.SuccessResponse(taskData, "Task Retrieved Successfully");
+                        return ApiResponse<TaskDetailsDto?>.SuccessResponse(_mapper.Map<TaskDetailsDto>(taskData), "Task Retrieved Successfully");
                     }
                     else
                     {
-                        return ApiResponse<TaskItem?>.FailResponse("Unauthorize to view task", ErrorCode.Unauthorize);
+                        return ApiResponse<TaskDetailsDto?>.FailResponse("Unauthorize to view task", ErrorCode.Unauthorize);
                     }
                 }
                 else
                 {
-                    return ApiResponse<TaskItem?>.FailResponse("Task not found", ErrorCode.TaskNotFound);
+                    return ApiResponse<TaskDetailsDto?>.FailResponse("Task not found", ErrorCode.TaskNotFound);
                 }
             }
             catch (Exception ex)
             {
-                return ApiResponse<TaskItem?>.FailResponse($"Error: {ex.Message}");
+                return ApiResponse<TaskDetailsDto?>.FailResponse($"Error: {ex.Message}");
             }
         }
 
-        public async Task<ApiResponse<TaskItem>> CreateTaskAsync(CreateTaskDto task)
+        public async Task<ApiResponse<TaskDto>> CreateTaskAsync(CreateTaskDto task)
         {
             try
             {
-                var taskData = new TaskItem
+                var isUserExist = await _userService.IsUserExistAsync(task.AssignedUserId);
+                if (isUserExist.ErrorCode != ErrorCode.None)
                 {
-                    Id = Guid.NewGuid(),
-                    Title = task.Title,
-                    Description = task.Description,
-                    Status = task.Status,
-                    DueDate = task.DueDate,
-                    AssignedUserId = task.AssignedUserId,
-                    CreatedBy = this._currentUserService?.UserId
-                };
+                    return ApiResponse<TaskDto>.FailResponse(isUserExist.Message!, isUserExist.ErrorCode);
+                }
+
+                var taskData = _mapper.Map<TaskItem>(task);
+                taskData.Id = Guid.NewGuid();
+                taskData.Status = TaskItemStatus.New;
+                taskData.CreatedBy = this._currentUserService?.UserId;
 
                 await _commandRepository.AddAsync(taskData);
-                return ApiResponse<TaskItem>.SuccessResponse(taskData, "Task Updated Successfully");
+                return ApiResponse<TaskDto>.SuccessResponse(_mapper.Map<TaskDto>(taskData), "Task Updated Successfully");
             }
             catch (Exception ex)
             {
-                return ApiResponse<TaskItem>.FailResponse($"Error: {ex.Message}");
+                return ApiResponse<TaskDto>.FailResponse($"Error: {ex.Message}");
             }
         }
 
-        public async Task<ApiResponse<TaskItem>> UpdateTaskAsync(TaskItem task)
+        public async Task<ApiResponse<TaskDto>> UpdateTaskAsync(UpdateTaskDto task)
         {
             try
             {
+                if (task.Status != null && !TaskItemStatus.All.Contains(task.Status))
+                {
+                    return ApiResponse<TaskDto>.FailResponse("Invalid Status value, must be one of " + JsonSerializer.Serialize(TaskItemStatus.All), ErrorCode.ValidationError);
+                }
                 var taskData = await _queryRepository.GetByIdAsync(task.Id);
                 if (taskData != null)
                 {
-                    taskData.Title = task.Title;
-                    taskData.Description = task.Description;
-                    taskData.Status = task.Status;
-                    taskData.DueDate = task.DueDate;
-                    taskData.AssignedUserId = task.AssignedUserId;
-                    task.UpdatedBy = _currentUserService?.UserId;
-                    task.UpdatedAt = DateTime.UtcNow;
+
+                    if (task.AssignedUserId != Guid.Empty)
+                    {
+                        var isUserExist = await _userService.IsUserExistAsync(task.AssignedUserId);
+                        if (isUserExist.ErrorCode != ErrorCode.None)
+                        {
+                            return ApiResponse<TaskDto>.FailResponse(isUserExist.Message!, isUserExist.ErrorCode);
+                        }
+
+                        taskData.AssignedUserId = task.AssignedUserId;
+                    }
+
+                    if (task.Title != null) taskData.Title = task.Title;
+                    if (task.Description != null) taskData.Description = task.Description;
+                    if (task.Status != null) taskData.Status = task.Status;
+                    if (task.DueDate != null) taskData.DueDate = task.DueDate;
+
+                    taskData.UpdatedBy = _currentUserService?.UserId;
+                    taskData.UpdatedAt = DateTime.UtcNow;
 
                     await _commandRepository.Update(taskData);
-                    return ApiResponse<TaskItem>.SuccessResponse(task, "Task Updated Successfully");
+                    return ApiResponse<TaskDto>.SuccessResponse(_mapper.Map<TaskDto>(taskData), "Task Updated Successfully");
                 }
                 else
                 {
-                    return ApiResponse<TaskItem>.FailResponse("Task not found", ErrorCode.TaskNotFound);
+                    return ApiResponse<TaskDto>.FailResponse("Task not found", ErrorCode.TaskNotFound);
                 }
             }
             catch (Exception ex)
             {
-                return ApiResponse<TaskItem>.FailResponse($"Error: {ex.Message}");
+                return ApiResponse<TaskDto>.FailResponse($"Error: {ex.Message}");
             }
         }
 
-        public async Task<ApiResponse<TaskItem>> UpdateTaskStatusAsync(Guid id, string status)
+        public async Task<ApiResponse<TaskDto>> UpdateTaskStatusAsync(Guid id, string status)
         {
+            if (!TaskItemStatus.All.Contains(status))
+            {
+                return ApiResponse<TaskDto>.FailResponse("Invalid Status value, must be one of " + JsonSerializer.Serialize(TaskItemStatus.All), ErrorCode.ValidationError);
+            }
+
             try
             {
                 var taskData = await _queryRepository.GetByIdAsync(id);
                 if (taskData != null)
                 {
                     var role = _currentUserService?.UserRole;
-                    if (role == "Admin" || (role == "User" && _currentUserService?.UserId == taskData.AssignedUserId))
+                    if (role == UserRoles.Admin || (role == UserRoles.User && _currentUserService?.UserId == taskData.AssignedUserId))
                     {
                         taskData.Status = status;
                         taskData.UpdatedBy = _currentUserService?.UserId;
                         taskData.UpdatedAt = DateTime.UtcNow;
 
                         await _commandRepository.Update(taskData);
-                        return ApiResponse<TaskItem>.SuccessResponse(taskData, "Task Updated Successfully");
+                        return ApiResponse<TaskDto>.SuccessResponse(_mapper.Map<TaskDto>(taskData), "Task Updated Successfully");
 
                     }
                     else
                     {
-                        return ApiResponse<TaskItem>.FailResponse("Unauthorize to view task", ErrorCode.Unauthorize);
+                        return ApiResponse<TaskDto>.FailResponse("Unauthorize to view task", ErrorCode.Unauthorize);
                     }
                 }
                 else
                 {
-                    return ApiResponse<TaskItem>.FailResponse("Task not found", ErrorCode.TaskNotFound);
+                    return ApiResponse<TaskDto>.FailResponse("Task not found", ErrorCode.TaskNotFound);
                 }
             }
             catch (Exception ex)
             {
-                return ApiResponse<TaskItem>.FailResponse($"Error: {ex.Message}");
+                return ApiResponse<TaskDto>.FailResponse($"Error: {ex.Message}");
             }
         }
 

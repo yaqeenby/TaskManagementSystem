@@ -11,6 +11,10 @@ namespace TaskManagementSystem.Shared.Enums
         TaskAssignmentFailed = 4000,
 
         Unauthorize = 4001,
-        GeneralApiError = 5000
+
+        UserHasAssignedTasks = 5000,
+
+        UserEmailDuplicated = 5001,
+        GeneralApiError = 100000000
     }
 }

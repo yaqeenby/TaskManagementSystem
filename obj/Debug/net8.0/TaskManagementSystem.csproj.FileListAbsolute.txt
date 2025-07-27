@@ -1,10 +1,3 @@
-D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.csproj.AssemblyReference.cache
-D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
-D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.AssemblyInfoInputs.cache
-D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.AssemblyInfo.cs
-D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.csproj.CoreCompileInputs.cache
-D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.MvcApplicationPartsAssemblyInfo.cs
-D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.MvcApplicationPartsAssemblyInfo.cache
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\appsettings.Development.json
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\appsettings.json
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.exe
@@ -12,6 +5,8 @@ D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.dep
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.runtimeconfig.json
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.dll
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.pdb
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\AutoMapper.dll
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
@@ -37,6 +32,14 @@ D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\Swashbuckle.AspNetCore.S
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.csproj.AssemblyReference.cache
+D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
+D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.AssemblyInfoInputs.cache
+D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.AssemblyInfo.cs
+D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.csproj.CoreCompileInputs.cache
+D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.MvcApplicationPartsAssemblyInfo.cs
+D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.MvcApplicationPartsAssemblyInfo.cache
+D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\TaskManagementSystem.sourcelink.json
 D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\staticwebassets.build.json
 D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\staticwebassets.development.json
 D:\yaqeenProjects\TaskManagementSystem\obj\Debug\net8.0\staticwebassets\msbuild.TaskManagementSystem.Microsoft.AspNetCore.StaticWebAssets.props

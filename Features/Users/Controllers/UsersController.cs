@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManagementSystem.Shared.Responses;
 using TaskManagementSystem.Users.DTOs;
-using TaskManagementSystem.Users.Models;
 using TaskManagementSystem.Users.Services;
 
 namespace TaskManagementSystem.Users.Controllers
@@ -18,35 +17,35 @@ namespace TaskManagementSystem.Users.Controllers
         }
 
         [HttpGet]
-        public async Task<ApiResponse<IEnumerable<User>>> GetUsers()
+        public async Task<ApiResponse<IEnumerable<UserDto>>> GetUsers()
         {
             var users = await _service.GetAllUsersAsync();
             return users;
         }
 
         [HttpGet("{id}")]
-        public async Task<ApiResponse<User?>> GetUser(Guid id)
+        public async Task<ApiResponse<UserDto?>> GetUser(Guid id)
         {
             var user = await _service.GetUserByIdAsync(id);
             return user;
         }
 
-        [HttpGet("tasks/{id}")]
-        public async Task<ApiResponse<User?>> GetUserWithTasks(Guid id)
+        [HttpGet("{id}/full-details")]
+        public async Task<ApiResponse<UserDetailsDto?>> GetUserWithTasks(Guid id)
         {
             var user = await _service.GetUserByIdWithTasksAsync(id);
             return user;
         }
 
         [HttpPost]
-        public async Task<ApiResponse<User>> CreateUser(CreateUserDto user)
+        public async Task<ApiResponse<UserDto>> CreateUser(CreateUserDto user)
         {
             var response = await _service.CreateUserAsync(user);
             return response;
         }
 
-        [HttpPut("{id}")]
-        public async Task<ApiResponse<User>> UpdateUser(User user)
+        [HttpPut]
+        public async Task<ApiResponse<UserDto>> UpdateUser(UpdateUserDto user)
         {
             var response = await _service.UpdateUserAsync(user);
             return response;

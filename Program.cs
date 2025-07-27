@@ -13,6 +13,9 @@ using TaskManagementSystem.Auth.Services;
 using Microsoft.AspNetCore.Identity;
 using TaskManagementSystem.Users.Models;
 using Microsoft.OpenApi.Models;
+using TaskManagementSystem.Helpers;
+using TaskManagementSystem.Middkewares;
+using TaskManagementSystem.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -96,10 +99,13 @@ builder.Services.AddScoped<ITaskQueryRepository, TaskQueryRepository>();
 builder.Services.AddScoped<ITaskCommandRepository, TaskCommandRepository>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<RoleBasedAccessMiddleware>();
 
 builder.Services.AddControllers();
 
@@ -112,9 +118,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseMiddleware<RoleBasedAccessMiddleware>();
 app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>();
+    DataSeeder.Seed(context, passwordHasher);
+}
 
 var summaries = new[]
 {

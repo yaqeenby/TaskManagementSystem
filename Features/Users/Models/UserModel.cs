@@ -9,6 +9,7 @@ namespace TaskManagementSystem.Users.Models
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
         public string Role { get; set; } = "User";
+        public bool IsDeleted { get; set; } = false;
         public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
     }
 }
