@@ -80,3 +80,12 @@ D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tes
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\obj\project.assets.json
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\obj\TaskManagementSystem.Tests.csproj.nuget.dgspec.json
 D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\obj\Debug\net8.0\TaskManagementSystem.Tests.sourcelink.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\appsettings.Development.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\appsettings.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.deps.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.runtimeconfig.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests.deps.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests.runtimeconfig.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\obj\project.assets.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\obj\TaskManagementSystem.Tests.csproj.nuget.dgspec.json
+D:\yaqeenProjects\TaskManagementSystem\bin\Debug\net8.0\TaskManagementSystem.Tests\bin\Debug\net8.0\TaskManagementSystem.Tests\obj\Debug\net8.0\TaskManagementSystem.Tests.sourcelink.json
